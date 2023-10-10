@@ -27,6 +27,19 @@ public class Main {
         permamentAddrInput.sendKeys("ss");
         WebElement buttonSubmit = driver.findElement(By.xpath("//button[@id='submit']"));
         buttonSubmit.click();
+        String name;
+        WebElement userNameOutput = driver.findElement(By.xpath("//p[@id='name']"));
+        WebElement userEmailOutput = driver.findElement(By.xpath("//p[@id='email']"));
+        WebElement userAddrOutput = driver.findElement(By.xpath("//p[@id='currentAddress']"));
+        WebElement userPermOutput = driver.findElement(By.xpath("//p[@id='permanentAddress']"));
+        name = userNameOutput.getText();
+        String email;
+        String Addr;
+        String Perm;
+        email = userEmailOutput.getText();
+        Addr = userAddrOutput.getText();
+        Perm = userPermOutput.getText();
+        System.out.println(name + " " + email + " " + Addr + " " + Perm + " ");
 
     }
 }
