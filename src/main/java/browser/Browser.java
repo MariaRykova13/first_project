@@ -25,7 +25,7 @@ public class Browser {
                 System.out.println("Incorrect platform or browser name: " + BROWSER_TYPE);
         }
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
         driver.manage().window().maximize();
         return driver;
     }

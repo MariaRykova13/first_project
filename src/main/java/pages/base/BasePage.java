@@ -4,16 +4,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
+import static constans.Constant.TimeoutVariable.EXPLICIT_WAIT;
 import static constans.Constant.URLS.START_PAGE_URL;
 
 public class BasePage {
     protected WebDriver driver;
-    public BasePage(WebDriver){
+    public BasePage(WebDriver driver){
         this.driver = driver;
     }
+    public static final String CHECK_BOX_LOCATOR = "//input[@type='checkbox'][following-sibling::span[contains(text(),'Home')]]";
     public void openUrl(String url){
         driver.get(url);
     }
@@ -23,20 +27,20 @@ public class BasePage {
     public WebElement findElement(String locator){
         WebElement element = driver.findElement(By.xpath(locator));
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView();",locator);
+        js.executeScript("arguments[0].scrollIntoView();",element);
         return element;
     }
     public List<WebElement> findElements(String locator){
         return driver.findElements(By.xpath(locator));
     }
     public void click(String locator){
-        findElements(locator).click();
+        findElement(locator).click();
     }
     public void clear(String locator){
-        findElements(locator).clear();
+        findElement(locator).clear();
     }
     public void sendKeys(String locator,String text){
-        findElements(locator).sendKeys(text);
+        findElement(locator).sendKeys(text);
     }
     public void sendKeysWithClear(String locator,String text){
         clear(locator);
@@ -44,5 +48,21 @@ public class BasePage {
     }
     public String getText(String locator){
         return findElement(locator).getText();
+    }
+    public void waitElementDisplayed(String locator, int second){
+        new WebDriverWait(driver, Duration.ofSeconds(second)).until(d-> findElement(locator).isDisplayed());
+    }
+    public void waitElementDisplayed (String locator){
+        waitElementDisplayed(locator,EXPLICIT_WAIT);
+    }
+    public boolean getCheckBoxState(String checkBoxName){
+        String locator = String.format(CHECK_BOX_LOCATOR,checkBoxName);
+        return findElement(locator).isSelected();
+    }
+    public void setCheckBox(String checkBoxName, boolean state){
+        String locator = String.format(CHECK_BOX_LOCATOR,checkBoxName) + "/following-sibling::span[contains(text(),'Home')]";
+        if(!getCheckBoxState(checkBoxName)==state){
+            click(locator);
+        }
     }
 }

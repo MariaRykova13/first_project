@@ -1,4 +1,4 @@
-package text_box_text;
+package text_box_text.waits;
 
 import browser.Browser;
 import main_pages.MainPage;
@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,7 +19,7 @@ import java.time.Duration;
 
 import static constans.Constant.URLS.START_PAGE_URL;
 
-public class Test1 {
+public class Wait_Test {
     private WebDriver driver;
     //private BasePage basePage;
     private MainPage mainPage;
@@ -37,13 +38,24 @@ public class Test1 {
     }
     @Test
     public void step_01(){
-        //basePage.click("//div[@class='card mt-4 top-card']/div[div/h5[text()='Elements']]");
+        String xpath = "//button[@id='visibleAfter']";
+
         elementsPage=mainPage.openCategoryElements();
-        String text = mainPage.getText("//div[@class='col-12 mt-4 col-md-6']");
-        String textResult = "Please select an item from left to start practice.";
-        Assert.assertTrue(text.equals(textResult));
-        Assert.assertEquals(text,textResult);
+        elementsPage.click("//span[text()='Dynamic Properties']");
+        elementsPage.waitElementDisplayed(xpath);
+        elementsPage.click(xpath);
+        Assert.assertTrue(elementsPage.findElement(xpath).isEnabled());
 
+    }
+    @Test
+    public void step_02(){
+        elementsPage.openStartPage();
+        mainPage.openCategoryElements();
+        elementsPage.click("//span[text()='Dynamic Properties']");
+        String xpath = "//button[@id='enableAfter']";
+        new WebDriverWait(driver,Duration.ofSeconds(10))
+                .until(d -> elementsPage.findElement(xpath).isEnabled());
 
+        Assert.assertTrue(elementsPage.findElement(xpath).isEnabled());
     }
 }
