@@ -27,13 +27,16 @@ public class Select_test {
     @Test
     public void step_01(){
         mainPage.openUrl("https://demoqa.com/select-menu");
-        /*Select select = new Select(mainPage.findElement("//select[@id='oldSelectMenu']"));
+        String locator = "//select[@id='oldSelectMenu']";
+        Select select = new Select(mainPage.findElement("//select[@id='oldSelectMenu']"));
         select.selectByVisibleText("Purple");
-        Assert.assertTrue(mainPage.findElement(locator + "/option[1]").getText().equals("Purple"));
+        //Assert.assertTrue(mainPage.findElement(locator + "/option[1]").getText().equals("Purple"));
 
-         */
+
         mainPage.click("//div[div[text()='Select Option']]");
         mainPage.waitElementDisplayed("//div[@class=' css-2613qy-menu']",20);
-        mainPage.click(locator + "//div[text()='Group 1']");
+        mainPage.waitElementDisplayed(locator);
+        mainPage.click(locator + "//div[text()='Group 1, option 1']");
+        //Assert.assertTrue();
     }
 }
